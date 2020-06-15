@@ -2,32 +2,32 @@ package com.example.administrator.kotlintest.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import android.view.*
 import com.example.administrator.kotlintest.R
 
 /**
  * Created by kangf on 2018/8/21.
  */
-abstract class BaseBottomDialogFragment : DialogFragment() {
+abstract class BaseBottomDialogFragment : androidx.fragment.app.DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        val window = dialog.window
+        val window = dialog?.window
         val params = window?.attributes
         params?.gravity = Gravity.BOTTOM
         params?.width = WindowManager.LayoutParams.MATCH_PARENT
         window?.attributes = params
         window?.setBackgroundDrawableResource(R.color.transparent)
-        dialog.setTitle(null)
-        dialog.setCancelable(true)
-        dialog.setCanceledOnTouchOutside(true)
+        dialog!!.setTitle(null)
+        dialog!!.setCancelable(true)
+        dialog!!.setCanceledOnTouchOutside(true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ActionSheetDialogStyle)
+        setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, R.style.ActionSheetDialogStyle)
         base()
     }
 
@@ -63,11 +63,11 @@ abstract class BaseBottomDialogFragment : DialogFragment() {
 
 
     fun isShowing(): Boolean {
-        return dialog != null && dialog.isShowing
+        return dialog != null && dialog!!.isShowing
     }
 
     @SuppressLint("CommitTransaction")
-    fun showDia(manager: FragmentManager, isResume: Boolean = true) {
+    fun showDia(manager: androidx.fragment.app.FragmentManager, isResume: Boolean = true) {
         if (!isShowing()) {
             if (isResume) {
                 if (!isAdded) {

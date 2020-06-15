@@ -55,6 +55,7 @@
         android:icon="@drawable/icon_app"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_app"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
@@ -66,17 +67,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".update.DownloadService" />
 
+        <provider
+            tools:replace="android:authorities"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.baselibrary.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_path"
+                tools:replace="android:resource" />
+        </provider>
         <!--tab可切换的布局  fragment-->
-        <activity android:name=".HomeActiivty"/>
-        <activity android:name=".FirstActivity"/>
+        <activity android:name=".HomeActiivty"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.XieCheng"/>
+        <activity android:name=".FirstActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".videorecorde.CameraActivity"/>
         <activity android:name=".videorecorde.MainCameraActivity"/>
-
+        <activity android:name=".removebg.RemovebgActivity"/>
+        <activity android:name=".expand.CustomActivity"/>
+        <activity android:name=".expand.ExpandActivity"/>
+        <activity android:name=".slidablelayout.SlidableActivity"/>
+        <activity android:name=".slidablelayout.DemoForFragment" />
+        <activity android:name=".slidablelayout.DemoForView" />
+        <activity android:name=".slidablelayout.DemoForLoop" />
+        <activity android:name=".slidablelayout.DemoForAutoSlide" />
+        <activity android:name=".ui.MarkDownViewActivity" />
+        <activity android:name=".ui.activity.LifeCycleActivity" />
         <!--第三方轮播图-->
         <activity android:name=".ui.activity.ThirdPartBannerZxingAcitivity"/>
 
         <activity android:name=".ui.activity.EdittextActivity"/>
+        <activity android:name=".ui.activity.MoveActivity"/>
         <!--扫一扫-->
         <activity android:name=".ui.qrcode.CaptureActivity"/>
         <!--自定义轮播图-->
@@ -94,6 +124,15 @@
         <activity android:name=".ui.activity.RuanActivity"/>
         <activity android:name=".ui.activity.PictureActionActivity"/>
         <activity android:name=".ui.activity.YingActivity"/>
+        <activity android:name=".ui.activity.extactivity.AnotherActivity"/>
+        <activity android:name=".ui.activity.extactivity.ActivityExtActivity"/>
+        <activity android:name=".ui.activity.extactivity.ExtActivity"/>
+        <activity android:name=".ui.activity.extactivity.IntentExtActivity"/>
+        <activity android:name=".ui.activity.extactivity.KtxSpanActivity"/>
+        <activity android:name=".ui.activity.extactivity.PermissionExtActivity"/>
+        <activity android:name=".ui.activity.extactivity.SharedPreferencesActivity"/>
+        <activity android:name=".ui.activity.extactivity.ListenerExtActivity"/>
+        <activity android:name=".ui.activity.extactivity.CommonExtActivity"/>
         <!--图片上传-->
         <activity android:name=".picture.UploadActivity"/>
         <!--图片裁剪-->
@@ -108,7 +147,10 @@
         <!--列表-->
         <activity android:name="com.xfs.qrcode_module.recycleview.RecycleviewActivity" />
         <activity android:name="com.xfs.qrcode_module.StickyItemRecycleview.StickyItemREcycleviewActivity" />
-
+        <activity android:name="com.example.administrator.kotlintest.ui.ViewpPage2.HorizontalScrollingActivity"/>
+        <activity android:name="com.example.administrator.kotlintest.ui.ViewpPage2.VerticalScrollingActivity"/>
+        <activity android:name="com.example.administrator.kotlintest.ui.ViewpPage2.FragmentStateAdapterActivity"/>
+        <activity android:name="com.example.administrator.kotlintest.ui.ViewpPage2.ViewPageActivity"/>
 
         <activity android:name="com.lzy.imagepicker.ui.ImagePreviewDelActivity"/>
         <activity android:name="com.lzy.imagepicker.ui.ImageCropActivity"/>

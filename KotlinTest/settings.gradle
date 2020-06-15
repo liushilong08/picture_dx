@@ -1,4 +1,7 @@
-include ':App', ':BaseLibrary', ':Provider', ':usercenter', ':qrcode-module', ':recycleviewlibrary', ':multiple-status-view', ':newbaselibrary', ':AttachmentFileLibrary', ':imagepicker'
+include ':App', ':BaseLibrary', ':Provider', ':ktx',
+        ':usercenter', ':qrcode-module', ':recycleviewlibrary', ':multiple-status-view',
+        ':newbaselibrary', ':imagepicker', ':NetworkModule',
+        ':removebg', ':expandablelayout', ':markdownview', ':TMessagesProj', ':SpringViewLib', ':slideview'
 
 include ':myInstalledPkg','ucrop',':keboardLibrary'
 //

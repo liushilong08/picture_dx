@@ -9,21 +9,29 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/App" />
-            <option value="$PROJECT_DIR$/AttachmentFileLibrary" />
             <option value="$PROJECT_DIR$/BaseLibrary" />
+            <option value="$PROJECT_DIR$/NetworkModule" />
             <option value="$PROJECT_DIR$/Provider" />
+            <option value="$PROJECT_DIR$/SpringViewLib" />
+            <option value="$PROJECT_DIR$/TMessagesProj" />
+            <option value="$PROJECT_DIR$/expandablelayout" />
             <option value="$PROJECT_DIR$/imagepicker" />
             <option value="$PROJECT_DIR$/keboardLibrary" />
+            <option value="$PROJECT_DIR$/ktx" />
+            <option value="$PROJECT_DIR$/markdownview" />
             <option value="$PROJECT_DIR$/multiple-status-view" />
             <option value="$PROJECT_DIR$/myInstalledPkg" />
             <option value="$PROJECT_DIR$/newbaselibrary" />
             <option value="$PROJECT_DIR$/qrcode-module" />
             <option value="$PROJECT_DIR$/recycleviewlibrary" />
+            <option value="$PROJECT_DIR$/removebg" />
+            <option value="$PROJECT_DIR$/slideview" />
             <option value="$PROJECT_DIR$/ucrop" />
             <option value="$PROJECT_DIR$/usercenter" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>
     </option>
   </component>

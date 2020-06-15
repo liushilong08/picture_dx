@@ -1,10 +1,14 @@
 package com.example.administrator.kotlintest.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.alibaba.android.arouter.launcher.ARouter
 import com.dx.banner.newbaselibrary.routerapi.RouterApi
@@ -14,14 +18,21 @@ import com.example.administrator.kotlintest.LogConfig
 import com.example.administrator.kotlintest.R
 import com.example.administrator.kotlintest.adapter.BaseRvAdapter
 import com.example.administrator.kotlintest.area.AreaSelectorDialog
+import com.example.administrator.kotlintest.bridge.retrofit.ApiConstants
 import com.example.administrator.kotlintest.channel.ChannelActivity
 import com.example.administrator.kotlintest.common.ActiveResultDef
 import com.example.administrator.kotlintest.common.IntentDataDef
 import com.example.administrator.kotlintest.dateyearmonthday.AttendviewActivity
 import com.example.administrator.kotlintest.entity.address.AddressAreaEntity
+import com.example.administrator.kotlintest.expand.ExpandActivity
 import com.example.administrator.kotlintest.location.CitySelectActivity
 import com.example.administrator.kotlintest.net.NetWatchdogUtils
+import com.example.administrator.kotlintest.removebg.RemovebgActivity
+import com.example.administrator.kotlintest.slidablelayout.SlidableActivity
 import com.example.administrator.kotlintest.smashzhadan.smashzhadan
+import com.example.administrator.kotlintest.ui.MarkDownViewActivity
+import com.example.administrator.kotlintest.ui.ViewpPage2.ViewPageActivity
+import com.example.administrator.kotlintest.ui.activity.extactivity.ExtActivity
 import com.example.administrator.kotlintest.ui.entity.PersonControlDao
 import com.example.administrator.kotlintest.util.BDLocationUtils
 import com.example.administrator.kotlintest.util.SpManager
@@ -29,17 +40,29 @@ import com.example.administrator.kotlintest.videorecorde.CameraActivity
 import com.example.administrator.kotlintest.videorecorde.MainCameraActivity
 import com.example.administrator.kotlintest.widget.DevicesUtils.getSQLHelper
 import com.example.administrator.kotlintest.widget.SystemDialog
+import com.example.baselibrary.MyApplication
+import com.example.baselibrary.common.ToastUtil
 import com.example.baselibrary.widgets.ToastUtilKt
+import com.example.baselibrary.widgets.UIUtils.context
 import com.hexun.base.http.HeXunHttpClient
 import com.hexun.caidao.hangqing.StockManager
 import com.hexun.caidao.hangqing.TrainingApi
+import com.liaoinstan.springview.widget.CustomerHeader
+import com.liaoinstan.springview.widget.SpringView
+import com.liaoinstan.springview.widget.XfsFooter
+import com.plumcookingwine.network.helper.NetworkHelper
+import com.theapache64.removebg.RemoveBg
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.xfs.fsyuncai.bridge.retrofit.http.interceptor.PublicHeaderInterceptor
+import com.xfs.fsyuncai.bridge.retrofit.http.interceptor.PublicParamsInterceptor
 import com.xfs.qrcode_module.recycleview.RecycleviewActivity
 import de.greenrobot.event.EventBus
 //import jsc.kit.keyboard.KeyBoardView
 //import jsc.kit.keyboard.KeyUtils
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 import org.jetbrains.anko.intentFor
+import org.telegram.ui.LaunchActivity
 import java.util.*
 
 class MainActivity : RxAppCompatActivity() {
@@ -51,9 +74,35 @@ class MainActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        ToastUtil.showCustomToast("debug==${MyApplication.isDebug}")
         getSQLHelper()
         SpManager.init(application)
+//        RemoveBg.init("efFu9zZn5DjWXZAvUgSB1ft5")//1136346879@qq.com
+        RemoveBg.init("aecGJ4NemsijtvbDkGDPEd4m")//3385675579@qq.com
         HeXunHttpClient.init(this)
+        mSpringView.let {
+            it.footer = XfsFooter(this)
+            it.header = CustomerHeader(this)
+            it.isEnableFooter = true
+            it.setListener(object : SpringView.OnFreshListener {
+                override fun onLoadmore() {
+                    getListEnd()
+                }
+
+                override fun onRefresh() {
+                   ToastUtil.showCustomToast("下拉刷新")
+                    mSpringView.onFinishFreshAndLoad()
+                }
+            })
+        }
+        NetworkHelper.init(
+                this,
+                ApiConstants.BASE_URL,
+//                isDebug,
+                false,
+                mutableListOf(PublicParamsInterceptor(), PublicHeaderInterceptor()),
+                null
+        )
 //        TrainingApi.getInstance().init(this)
 
 
@@ -78,6 +127,16 @@ class MainActivity : RxAppCompatActivity() {
         listData.add(PersonControlDao(10,"进入首页2--可切换", null))
         listData.add(PersonControlDao(11,"相机视频-拍照", null))
         listData.add(PersonControlDao(12,"Edittext", null))
+        listData.add(PersonControlDao(13,"removeBG", null))
+        listData.add(PersonControlDao(14,"expand", null))
+        listData.add(PersonControlDao(15,"slidablelayout", null))
+        listData.add(PersonControlDao(16,"MarkdownView", null))
+        listData.add(PersonControlDao(17,"LifeCycleActivity", null))
+        listData.add(PersonControlDao(18,"ExtActivity", null))
+        listData.add(PersonControlDao(19,"Teg", null))
+        listData.add(PersonControlDao(20,"协程在app中的应用", null))
+        listData.add(PersonControlDao(21,"滑动验证", null))
+        listData.add(PersonControlDao(22,"viewpage2", null))
 
         multipleStatusView.showContent()
         multipleStatusView.setOnClickListener { ToastUtilKt.showCustomToast("点击重新加载") }
@@ -103,6 +162,16 @@ class MainActivity : RxAppCompatActivity() {
                 10 -> startActivity(this.intentFor<FirstActivity>())
                 11 -> startActivity(this.intentFor<MainCameraActivity>())
                 12 -> startActivity(this.intentFor<EdittextActivity>())
+                13 -> startActivity(this.intentFor<RemovebgActivity>())
+                14 -> startActivity(this.intentFor<ExpandActivity>())
+                15 -> startActivity(this.intentFor<SlidableActivity>())
+                16 -> startActivity(this.intentFor<MarkDownViewActivity>())
+                17 -> startActivity(this.intentFor<LifeCycleActivity>())
+                18 -> startActivity(this.intentFor<ExtActivity>())
+                19 -> startActivity(this.intentFor<LaunchActivity>())
+                20 -> startActivity(this.intentFor<XieCheng>())
+                21 -> startActivity(this.intentFor<MoveActivity>())
+                22 -> startActivity(this.intentFor<ViewPageActivity>())
             }
         }
         //view拖拽功能
@@ -114,14 +183,14 @@ class MainActivity : RxAppCompatActivity() {
         channel_mannger.setOnClickListener { startActivity(this!!.intentFor<ChannelActivity>()) }
         location.setOnClickListener { startActivity(this!!.intentFor<CitySelectActivity>()) }
         locationData()
-        //检测有网络时在回调中开启上传
+        //检测有网络时在a回调中开启上传
         initNetWatchdog()
     }
     private var mWatchdog: NetWatchdogUtils? = null
-    private val TAG = MainActivity::class.java!!.getSimpleName()
+    private val TAG = MainActivity::class.java!!.simpleName
     private fun initNetWatchdog() {
         mWatchdog =  NetWatchdogUtils(this);
-       mWatchdog!!.startWatch()
+        mWatchdog!!.startWatch()
         mWatchdog!!.setNetChangeListener(object :NetWatchdogUtils.NetChangeListener{
 
            override fun onWifiTo4G() {
@@ -142,7 +211,20 @@ class MainActivity : RxAppCompatActivity() {
             }
         })
     }
-
+    private lateinit var footerView: View
+    private var tvBottomTip: TextView? = null
+     fun getListEnd() {
+        mSpringView.onFinishFreshAndLoad()
+        mSpringView?.isEnableFooter = true
+        footerView = LayoutInflater.from(context()).inflate(R.layout.footer_integral_no_more, null, false)
+        tvBottomTip = footerView.findViewById(R.id.tvBottomTip)
+//        saledTHistoryListAdapter.removeAllFooterView()
+//        saledTHistoryListAdapter.addFooterView(footerView)
+        if (tvBottomTip != null) {
+            tvBottomTip!!.visibility = View.VISIBLE
+        }
+//        saledTHistoryListAdapter.loadMoreEnd()
+    }
     override fun onStart() {
         super.onStart()
         mWatchdog!!.startWatch()
